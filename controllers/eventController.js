@@ -1,13 +1,17 @@
 const pool = require('../db');
+const { isValidCapacity, isFutureDate, isNonEmptyString } = require('../utils/validation');
 
-// POST-> /api/events
+// POST----->  /api/events
 const createEvent = async (req, res) => {
   const { title, date_time, location, capacity } = req.body;
-  if (!title || !date_time || !location || !capacity) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
-  if (capacity <= 0 || capacity > 1000) {
-    return res.status(400).json({ error: 'Capacity must be between 1 and 1000' });
+
+  if (
+    !isNonEmptyString(title) ||
+    !isNonEmptyString(location) ||
+    !isFutureDate(date_time) ||
+    !isValidCapacity(capacity)
+  ) {
+    return res.status(400).json({ error: 'Invalid event input. Please check all fields.' });
   }
 
   try {
@@ -21,7 +25,7 @@ const createEvent = async (req, res) => {
   }
 };
 
-// GET /api/events/:id
+// GET----->  /api/events/:id
 const getEventDetails = async (req, res) => {
   const { id } = req.params;
   try {
@@ -44,10 +48,14 @@ const getEventDetails = async (req, res) => {
   }
 };
 
-// POST-> /api/events/:id/register
+// POST----->  /api/events/:id/register
 const registerForEvent = async (req, res) => {
   const { id: eventId } = req.params;
   const { user_id } = req.body;
+
+  if (!user_id || typeof user_id !== 'number') {
+    return res.status(400).json({ error: 'Invalid user_id' });
+  }
 
   try {
     const [event, reg] = await Promise.all([
@@ -81,10 +89,14 @@ const registerForEvent = async (req, res) => {
   }
 };
 
-// DELETE-> /api/events/:id/register
+// DELETE----->  /api/events/:id/register
 const cancelRegistration = async (req, res) => {
   const { id: eventId } = req.params;
   const { user_id } = req.body;
+
+  if (!user_id || typeof user_id !== 'number') {
+    return res.status(400).json({ error: 'Invalid user_id' });
+  }
 
   try {
     const existing = await pool.query('SELECT * FROM registrations WHERE event_id = $1 AND user_id = $2', [eventId, user_id]);
@@ -99,7 +111,7 @@ const cancelRegistration = async (req, res) => {
   }
 };
 
-// GET-> /api/events/upcoming
+// GET----->  /api/events/upcoming
 const listUpcomingEvents = async (req, res) => {
   try {
     const result = await pool.query(
@@ -111,7 +123,7 @@ const listUpcomingEvents = async (req, res) => {
   }
 };
 
-// GET-> /api/events/:id/stats
+// GET-----> /api/events/:id/stats
 const getEventStats = async (req, res) => {
   const { id: eventId } = req.params;
   try {
