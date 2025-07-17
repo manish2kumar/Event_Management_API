@@ -38,8 +38,8 @@ DB_NAME=eventdb
 ```
 
 5. **Create database and tables**
-- Check out db folder
-- 
+- Check db folder
+  
 6. **Run the server**
 ```bash
 npm run dev
