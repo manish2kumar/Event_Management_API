@@ -18,7 +18,7 @@ A RESTful API to manage events and user registrations, built using **Node.js**, 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/event-management-api.git
+git clone https://github.com/manish2kumar/event-management-api.git
 cd event-management-api
 ```
 
