@@ -21,26 +21,35 @@ A RESTful API to manage events and user registrations, built using **Node.js**, 
 git clone https://github.com/your-username/event-management-api.git
 cd event-management-api
 ```
+
 2. **Install dependencies**
 ```bash
 npm install
-```   
+```
+
 3. **Configure .env file**
+```bash
 PORT=5000
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=yourpassword
 DB_NAME=eventdb
-4. **Create database and tables**
-Check out db folder
-5. **Run the server**
+```
+
+5. **Create database and tables**
+- Check out db folder
+- 
+6. **Run the server**
 ```bash
 npm run dev
 ```
 
+---
+
 ## Folder Structure
 
+```bash
 event-management-api/
 ├── controllers/
 │   └── eventController.js
@@ -59,6 +68,9 @@ event-management-api/
 ├── package.json
 ├── server.js
 └── README.md
+```
+
+---
 
 ##  API Endpoints
 
@@ -66,7 +78,7 @@ event-management-api/
 ``http
 POST /api/events
 ``
-Request
+- Request
 ``json
 {
   "title": "Tech Fest",
@@ -75,7 +87,7 @@ Request
   "capacity": 500
 }
 ``
-Response
+- Response
 ``json
 { "event_id": 1 }
 ``
@@ -84,7 +96,7 @@ Response
 ``http
 GET /api/events/:id
 ``
-Response
+- Response
 ``json
 {
   "id": 1,
@@ -102,11 +114,11 @@ Response
 ``http
 POST /api/events/:id/register
 ``
-Request
+- Request
 ``json
 { "user_id": 1 }
 ``
-Response
+- Response
 ``json
 { "message": "User registered successfully" }
 ``
@@ -115,11 +127,11 @@ Response
 ``http
 DELETE /api/events/:id/register
 ``
-Request
+- Request
 ``json
 { "user_id": 1 }
 ``
-Response
+- Response
 ``json
 { "message": "Registration cancelled" }
 ``
@@ -128,7 +140,7 @@ Response
 ``http
 GET /api/events/upcoming
 ``
-Response
+- Response
 ``json
 [
   {
@@ -146,7 +158,7 @@ Response
 ``http
 GET /api/events/:id/stats
 ``
-Response
+- Response
 ``json
 {
   "total_registrations": 1,
